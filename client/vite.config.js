@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/", // <--- THIS IS THE FIX
+  base: "/", // <--- MUST for Netlify and Vercel deployment
 });
