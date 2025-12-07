@@ -1,11 +1,20 @@
 import axios from "axios";
 
-// Base URL env se lenge, warna localhost fallback
+// ----- BASE URL SETUP -----
+// Env se lenge, agar waha na mile to localhost pe fallback karenge
+// Example .env (frontend):
+// VITE_API_BASE_URL=https://learnease-fbzj.onrender.com/api
+
+const BASE_URL =
+  (import.meta.env.VITE_API_BASE_URL &&
+    import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "")) || // last ka "/" hata diya
+  "http://localhost:5000/api";
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
+  baseURL: BASE_URL,
 });
 
-// REQUEST: automatically attach token
+// ----- REQUEST: automatically attach token -----
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("le_token");
   if (token) {
@@ -14,7 +23,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// RESPONSE: auto logout on 401/403
+// ----- RESPONSE: auto logout on 401/403 -----
 api.interceptors.response.use(
   (response) => response,
   (error) => {
