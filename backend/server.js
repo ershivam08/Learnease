@@ -19,6 +19,11 @@ app.use(express.json());
 // Serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Test Route (👈 404 se pehle rakho)
+app.get("/", (req, res) => {
+  res.send("✅ LearnEase Backend API is running...");
+});
+
 // Routes
 const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
@@ -33,17 +38,12 @@ app.use("/api/subtopics", subtopicRoutes);
 app.use("/api/content", contentRoutes);
 app.use("/api/search", searchRoutes);
 
-// 404 Handler
+// 404 Handler (👈 hamesha sabse LAST)
 app.use((req, res) => {
   res.status(404).json({
     status: false,
     message: "API Route Not Found",
   });
-});
-
-// Test Route
-app.get("/", (req, res) => {
-  res.send("✅ LearnEase Backend API is running...");
 });
 
 // Start Server
